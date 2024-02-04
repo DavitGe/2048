@@ -1,9 +1,10 @@
 import styled from "styled-components";
+import Game from "../components/Game/Game";
 
 const MainPage = () => {
   return (
     <Wrapper>
-      <Board></Board>
+      <Game />
     </Wrapper>
   );
 };
@@ -15,14 +16,6 @@ const Wrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-`;
-
-const Board = styled.div`
-  background-color: #b29d85;
-  border: 8px solid #23182a;
-  border-radius: 16px;
-  width: 724px;
-  height: 924px;
 `;
 
 export default MainPage;
