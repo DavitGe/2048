@@ -117,7 +117,43 @@ export const NumberArraysProvider: React.FC<NumberArraysProviderProps> = ({
       setNumberArrays(result.numberArrays);
       setEmptySpots(result.emptySpots);
     },
-    right: () => {},
+    right: () => {
+      const newNumberArray = numberArrays.map((el) => {
+        try {
+          const withoutSpaces: number[] = el.filter((n) => n != 0);
+          const summedNumbers = withoutSpaces.reverse().reduce(
+            (sum: { skipNext: boolean; data: number[] }, n, index) => {
+              if (sum.skipNext) {
+                return { ...sum, skipNext: false };
+              } else {
+                if (
+                  index + 1 < withoutSpaces.length &&
+                  n == withoutSpaces?.[index + 1]
+                ) {
+                  return { skipNext: true, data: [...sum.data, n * 2] };
+                } else {
+                  return { skipNext: false, data: [...sum.data, n] };
+                }
+              }
+            },
+            { skipNext: false, data: [] }
+          ).data;
+
+          return [
+            ...summedNumbers,
+            ...new Array(4 - summedNumbers.length).fill(0),
+          ].reverse();
+        } catch (e) {
+          return new Array(4).fill(0);
+        }
+      });
+      const result = generateNewRandomElement(
+        searchEmptySpace(newNumberArray),
+        newNumberArray
+      );
+      setNumberArrays(result.numberArrays);
+      setEmptySpots(result.emptySpots);
+    },
     up: () => {},
     down: () => {},
   };

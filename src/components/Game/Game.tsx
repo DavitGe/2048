@@ -16,6 +16,7 @@ const Game = () => {
       </Board>
       <button onClick={startGame}>Start</button>
       <button onClick={MOVE.left}>Left</button>
+      <button onClick={MOVE.right}>Right</button>
     </>
   );
 };

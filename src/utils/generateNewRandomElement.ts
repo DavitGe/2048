@@ -35,7 +35,8 @@ export function generateNewRandomElement(
       ),
     };
   }
-  const randomIndex = randomNumber(0, emptySpots.length - 1);
+  const randomIndex = randomNumber(0, emptySpots.length - 2);
+
   return {
     emptySpots: emptySpots.splice(randomIndex, 1),
     numberArrays: addNumberElement(
