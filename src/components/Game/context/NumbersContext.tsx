@@ -1,19 +1,19 @@
-import React, {
-  createContext,
-  useContext,
-  ReactNode,
-  Dispatch,
-  SetStateAction,
-} from "react";
+import React, { createContext, useContext, ReactNode } from "react";
 import { randomNumber } from "../../../utils/randomNumber";
+import { DEFAULT_EMPTY } from "../../../store/DEFAULT_EMPTY";
+import { searchEmptySpace } from "../../../utils/searchEmptySpace";
+import { generateNewRandomElement } from "../../../utils/generateNewRandomElement";
 
 // Define the context type
 interface NumberArraysContextType {
   numberArrays: number[][];
-  emptySpots: number[][];
-  setNumberArrays: Dispatch<SetStateAction<number[][]>>;
   startGame: () => void;
-  generateNewRandomElement: () => void;
+  MOVE: {
+    up: () => void;
+    down: () => void;
+    left: () => void;
+    right: () => void;
+  };
 }
 
 // Create the context
@@ -35,45 +35,13 @@ export const NumberArraysProvider: React.FC<NumberArraysProviderProps> = ({
     [0, 0, 0, 0],
     [0, 0, 0, 0],
   ]);
-  const [emptySpots, setEmptySpots] = React.useState<number[][]>([
-    [0, 0],
-    [0, 1],
-    [0, 2],
-    [0, 3],
-    [1, 0],
-    [1, 1],
-    [1, 2],
-    [1, 3],
-    [2, 0],
-    [2, 1],
-    [2, 2],
-    [2, 3],
-    [3, 0],
-    [3, 1],
-    [3, 2],
-    [3, 3],
-  ]);
+  const [emptySpots, setEmptySpots] = React.useState<number[][]>(DEFAULT_EMPTY);
 
+  //delete emoty spot with id x and y
   function removeEmptySpot(x: number, y: number) {
     setEmptySpots(
       emptySpots.filter((el) => el.toString() != [x, y].toString())
     );
-  }
-
-  //function to change one element only. x is index for main array, y for childs, value sets it.
-  function setNumberElement(x: number, y: number, value: number) {
-    removeEmptySpot(x, y);
-    setNumberArrays(
-      numberArrays.map((el, index) =>
-        index === x ? el.map((n, i) => (i === y ? value : n)) : el
-      )
-    );
-  }
-
-  //function to create 2 in random empty spot
-  function generateNewRandomElement() {
-    const randomIndex = randomNumber(0, emptySpots.length - 1);
-    setNumberElement(emptySpots[randomIndex][0], emptySpots[randomIndex][1], 2);
   }
 
   //function to start game(createing 2 random elements)
@@ -111,14 +79,55 @@ export const NumberArraysProvider: React.FC<NumberArraysProviderProps> = ({
     );
   }
 
+  const MOVE = {
+    left: () => {
+      const newNumberArray = numberArrays.map((el) => {
+        try {
+          const withoutSpaces: number[] = el.filter((n) => n != 0);
+          const summedNumbers = withoutSpaces.reduce(
+            (sum: { skipNext: boolean; data: number[] }, n, index) => {
+              if (sum.skipNext) {
+                return { ...sum, skipNext: false };
+              } else {
+                if (
+                  index + 1 < withoutSpaces.length &&
+                  n == withoutSpaces?.[index + 1]
+                ) {
+                  return { skipNext: true, data: [...sum.data, n * 2] };
+                } else {
+                  return { skipNext: false, data: [...sum.data, n] };
+                }
+              }
+            },
+            { skipNext: false, data: [] }
+          ).data;
+
+          return [
+            ...summedNumbers,
+            ...new Array(4 - summedNumbers.length).fill(0),
+          ];
+        } catch (e) {
+          return new Array(4).fill(0);
+        }
+      });
+      const result = generateNewRandomElement(
+        searchEmptySpace(newNumberArray),
+        newNumberArray
+      );
+      setNumberArrays(result.numberArrays);
+      setEmptySpots(result.emptySpots);
+    },
+    right: () => {},
+    up: () => {},
+    down: () => {},
+  };
+
   return (
     <NumberArraysContext.Provider
       value={{
         numberArrays,
-        setNumberArrays,
         startGame,
-        generateNewRandomElement,
-        emptySpots,
+        MOVE,
       }}
     >
       {children}

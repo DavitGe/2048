@@ -3,7 +3,7 @@ import NumberElement from "../NumberElement";
 import { useNumberArraysContext } from "./context/NumbersContext";
 
 const Game = () => {
-  const { numberArrays, startGame } = useNumberArraysContext();
+  const { numberArrays, startGame, MOVE } = useNumberArraysContext();
 
   return (
     <>
@@ -15,6 +15,7 @@ const Game = () => {
         )}
       </Board>
       <button onClick={startGame}>Start</button>
+      <button onClick={MOVE.left}>Left</button>
     </>
   );
 };
