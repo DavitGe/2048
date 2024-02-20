@@ -4,6 +4,7 @@ import { DEFAULT_EMPTY } from "../../../store/DEFAULT_EMPTY";
 import { searchEmptySpace } from "../../../utils/searchEmptySpace";
 import { generateNewRandomElement } from "../../../utils/generateNewRandomElement";
 import { DEFAULT_NUMBERARRAYS } from "../../../store/DEFAULT_NUMBERARRAYS";
+import { rotateMatrix } from "../../../utils/rotateMatrix";
 
 // Define the context type
 interface NumberArraysContextType {
@@ -154,26 +155,38 @@ export const NumberArraysProvider: React.FC<NumberArraysProviderProps> = ({
     },
     up: () => {},
     down: () => {
-      var newNumberArray: number[][] = DEFAULT_NUMBERARRAYS;
-      for (let col = 0; col < 4; col++) {
-        let nonZeroIndex = 3; // Start from bottom
-        for (let row = 3; row >= 0; row--) {
-          if (numberArrays[row][col] !== 0) {
-            if (row !== nonZeroIndex) {
-              // Swap current element with nearest non-zero element below it
-              [newNumberArray[row][col], newNumberArray[nonZeroIndex][col]] = [
-                numberArrays[nonZeroIndex][col],
-                numberArrays[row][col],
-              ];
+      var newNumberArray: number[][] = [];
+
+      for (let row = numberArrays.length - 1; row >= 0; row--) {
+        var colNumberArray: number[] = []; //stores value of moved column (without 0s)
+        var emptyIndex = numberArrays[row].length - 1; //lowest empty index
+        var prevValue: number = -1; //last element except 0 (to add)
+        for (let col = numberArrays[row].length - 1; col >= 0; col--) {
+          const value = numberArrays[col][row]; //current element value
+          if (value != 0) {
+            if (prevValue == value) {
+              prevValue = -1;
+              colNumberArray[colNumberArray.length - 1] *= 2;
+            } else {
+              emptyIndex += 1;
+              prevValue = value;
+              colNumberArray.push(value);
             }
-            nonZeroIndex--;
           }
         }
+        newNumberArray.push([
+          ...new Array(numberArrays.length - colNumberArray.length).fill(0),
+          ...colNumberArray.reverse(),
+        ]);
       }
+      const rotatedNumberArray: number[][] = rotateMatrix(
+        newNumberArray,
+        "left"
+      );
 
       const result = generateNewRandomElement(
-        searchEmptySpace(newNumberArray),
-        newNumberArray
+        searchEmptySpace(rotatedNumberArray),
+        rotatedNumberArray
       );
 
       setNumberArrays(result.numberArrays);

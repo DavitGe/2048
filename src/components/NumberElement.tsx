@@ -5,14 +5,14 @@ const Number = ({ number }: { number?: number }) => {
   return (
     <Container
       color={NUMBER_COLORS[number ?? 0].color}
-      backgroundColor={NUMBER_COLORS[number ?? 0].backgroundColor}
+      $backgroundColor={NUMBER_COLORS[number ?? 0].backgroundColor}
     >
       {number !== 0 && number}
     </Container>
   );
 };
 
-const Container = styled.div<{ color: any; backgroundColor: string }>`
+const Container = styled.div<{ color: any; $backgroundColor: string }>`
   padding: 10px;
   background-color: #efeee3;
   text-align: center;
