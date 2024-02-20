@@ -15,6 +15,7 @@ interface NumberArraysContextType {
     left: () => void;
     right: () => void;
   };
+  emptySpots: number[][];
 }
 
 // Create the context
@@ -186,6 +187,7 @@ export const NumberArraysProvider: React.FC<NumberArraysProviderProps> = ({
         numberArrays,
         startGame,
         MOVE,
+        emptySpots,
       }}
     >
       {children}

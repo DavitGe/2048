@@ -4,27 +4,28 @@ import { useNumberArraysContext } from "./context/NumbersContext";
 import { useEffect } from "react";
 
 const Game = () => {
-  const { numberArrays, startGame, MOVE } = useNumberArraysContext();
+  const { numberArrays, emptySpots, startGame, MOVE } =
+    useNumberArraysContext();
+  const handleKeyDown = (event: KeyboardEvent) => {
+    switch (event.key) {
+      case "ArrowUp":
+        MOVE.up();
+        break;
+      case "ArrowDown":
+        MOVE.down();
+        break;
+      case "ArrowLeft":
+        MOVE.left();
+        break;
+      case "ArrowRight":
+        MOVE.right();
+        break;
+      default:
+        // Handle other key presses if needed
+        break;
+    }
+  };
   useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      switch (event.key) {
-        case "ArrowUp":
-          MOVE.up();
-          break;
-        case "ArrowDown":
-          MOVE.down();
-          break;
-        case "ArrowLeft":
-          MOVE.left();
-          break;
-        case "ArrowRight":
-          MOVE.right();
-          break;
-        default:
-          // Handle other key presses if needed
-          break;
-      }
-    };
     // Attach event listener when component mounts
     window.addEventListener("keydown", handleKeyDown);
 
@@ -32,7 +33,7 @@ const Game = () => {
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, []);
+  }, [numberArrays, emptySpots]);
 
   return (
     <>
@@ -44,9 +45,9 @@ const Game = () => {
         )}
       </Board>
       <button onClick={startGame}>Start</button>
-      {/* <button onClick={MOVE.left}>Left</button>
+      <button onClick={MOVE.left}>Left</button>
       <button onClick={MOVE.right}>Right</button>
-      <button onClick={MOVE.down}>down</button> */}
+      <button onClick={MOVE.down}>down</button>
     </>
   );
 };
