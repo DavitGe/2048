@@ -153,7 +153,44 @@ export const NumberArraysProvider: React.FC<NumberArraysProviderProps> = ({
       setNumberArrays(result.numberArrays);
       setEmptySpots(result.emptySpots);
     },
-    up: () => {},
+    up: () => {
+      var newNumberArray: number[][] = [];
+
+      for (let row = 0; row < numberArrays.length; row++) {
+        var colNumberArray: number[] = []; //stores value of moved column (without 0s)
+        var emptyIndex = numberArrays[row].length - 1; //lowest empty index
+        var prevValue: number = -1; //last element except 0 (to add)
+        for (let col = 0; col < numberArrays[row].length; col++) {
+          const value = numberArrays[col][row]; //current element value
+          if (value != 0) {
+            if (prevValue == value) {
+              prevValue = -1;
+              colNumberArray[colNumberArray.length - 1] *= 2;
+            } else {
+              emptyIndex -= 1;
+              prevValue = value;
+              colNumberArray.push(value);
+            }
+          }
+        }
+        newNumberArray.push([
+          ...new Array(numberArrays.length - colNumberArray.length).fill(0),
+          ...colNumberArray.reverse(),
+        ]);
+      }
+      const rotatedNumberArray: number[][] = rotateMatrix(
+        newNumberArray,
+        "right"
+      );
+
+      const result = generateNewRandomElement(
+        searchEmptySpace(rotatedNumberArray),
+        rotatedNumberArray
+      );
+
+      setNumberArrays(result.numberArrays);
+      setEmptySpots(result.emptySpots);
+    },
     down: () => {
       var newNumberArray: number[][] = [];
 
