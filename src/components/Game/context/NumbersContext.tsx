@@ -3,6 +3,7 @@ import { randomNumber } from "../../../utils/randomNumber";
 import { DEFAULT_EMPTY } from "../../../store/DEFAULT_EMPTY";
 import { searchEmptySpace } from "../../../utils/searchEmptySpace";
 import { generateNewRandomElement } from "../../../utils/generateNewRandomElement";
+import { DEFAULT_NUMBERARRAYS } from "../../../store/DEFAULT_NUMBERARRAYS";
 
 // Define the context type
 interface NumberArraysContextType {
@@ -29,12 +30,8 @@ interface NumberArraysProviderProps {
 export const NumberArraysProvider: React.FC<NumberArraysProviderProps> = ({
   children,
 }) => {
-  const [numberArrays, setNumberArrays] = React.useState<number[][]>([
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-  ]);
+  const [numberArrays, setNumberArrays] =
+    React.useState<number[][]>(DEFAULT_NUMBERARRAYS);
   const [emptySpots, setEmptySpots] = React.useState<number[][]>(DEFAULT_EMPTY);
 
   //delete emoty spot with id x and y
@@ -155,7 +152,32 @@ export const NumberArraysProvider: React.FC<NumberArraysProviderProps> = ({
       setEmptySpots(result.emptySpots);
     },
     up: () => {},
-    down: () => {},
+    down: () => {
+      var newNumberArray: number[][] = DEFAULT_NUMBERARRAYS;
+      for (let col = 0; col < 4; col++) {
+        let nonZeroIndex = 3; // Start from bottom
+        for (let row = 3; row >= 0; row--) {
+          if (numberArrays[row][col] !== 0) {
+            if (row !== nonZeroIndex) {
+              // Swap current element with nearest non-zero element below it
+              [newNumberArray[row][col], newNumberArray[nonZeroIndex][col]] = [
+                numberArrays[nonZeroIndex][col],
+                numberArrays[row][col],
+              ];
+            }
+            nonZeroIndex--;
+          }
+        }
+      }
+
+      const result = generateNewRandomElement(
+        searchEmptySpace(newNumberArray),
+        newNumberArray
+      );
+
+      setNumberArrays(result.numberArrays);
+      setEmptySpots(result.emptySpots);
+    },
   };
 
   return (
