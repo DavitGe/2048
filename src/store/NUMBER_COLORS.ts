@@ -9,42 +9,46 @@ export const NUMBER_COLORS: NumberColors = {
   },
   2: {
     backgroundColor: "#F6F5F1",
-    color: "#000",
+    color: "#776e65",
   },
   4: {
-    backgroundColor: "#F6F5F1",
-    color: "#000",
+    backgroundColor: "#EDE0C8",
+    color: "#776E65",
   },
   8: {
-    backgroundColor: "#F6F5F1",
-    color: "#000",
+    backgroundColor: "#F2B179",
+    color: "#F9F6F2",
   },
   16: {
-    backgroundColor: "#F6F5F1",
-    color: "#000",
+    backgroundColor: "#F59563",
+    color: "#F9F6F2",
   },
   32: {
-    backgroundColor: "#F6F5F1",
-    color: "#000",
+    backgroundColor: "#f67c5f",
+    color: "#F9F6F2",
   },
   64: {
-    backgroundColor: "#F6F5F1",
-    color: "#000",
+    backgroundColor: "#F65E3B",
+    color: "#F9F6F2",
   },
   128: {
-    backgroundColor: "#F6F5F1",
-    color: "#000",
+    backgroundColor: "#EDCF72",
+    color: "#F9F6F2",
   },
   256: {
-    backgroundColor: "#F6F5F1",
-    color: "#000",
+    backgroundColor: "#EDCC61",
+    color: "#F9F6F2",
   },
   512: {
-    backgroundColor: "#F6F5F1",
-    color: "#000",
+    backgroundColor: "#f0c435",
+    color: "#F9F6F2",
   },
   1024: {
-    backgroundColor: "#F6F5F1",
-    color: "#000",
+    backgroundColor: "#f27e2c",
+    color: "#F9F6F2",
+  },
+  2048: {
+    backgroundColor: "#a80c0c",
+    color: "#F9F6F2",
   },
 };

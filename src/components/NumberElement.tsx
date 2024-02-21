@@ -14,7 +14,7 @@ const Number = ({ number }: { number?: number }) => {
 
 const Container = styled.div<{ color: any; $backgroundColor: string }>`
   padding: 10px;
-  background-color: #efeee3;
+  background-color: ${(props) => props.$backgroundColor};
   text-align: center;
   box-sizing: border-box;
   border-radius: 8px;
@@ -27,7 +27,7 @@ const Container = styled.div<{ color: any; $backgroundColor: string }>`
 
   font-family: "Kanit", sans-serif;
   font-weight: 600;
-  font-size: 32px;
+  font-size: 36px;
   color: ${(props) => props.color ?? "#000"};
 `;
 
