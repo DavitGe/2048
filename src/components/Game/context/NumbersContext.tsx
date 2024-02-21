@@ -37,11 +37,11 @@ export const NumberArraysProvider: React.FC<NumberArraysProviderProps> = ({
   const [emptySpots, setEmptySpots] = React.useState<number[][]>(DEFAULT_EMPTY);
 
   //delete emoty spot with id x and y
-  function removeEmptySpot(x: number, y: number) {
-    setEmptySpots(
-      emptySpots.filter((el) => el.toString() != [x, y].toString())
-    );
-  }
+  // function removeEmptySpot(x: number, y: number) {
+  //   setEmptySpots(
+  //     emptySpots.filter((el) => el.toString() != [x, y].toString())
+  //   );
+  // }
 
   //function to start game(createing 2 random elements)
   function startGame() {
