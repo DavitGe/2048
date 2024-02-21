@@ -17,6 +17,7 @@ interface NumberArraysContextType {
     right: () => void;
   };
   emptySpots: number[][];
+  score: number;
 }
 
 // Create the context
@@ -35,7 +36,7 @@ export const NumberArraysProvider: React.FC<NumberArraysProviderProps> = ({
   const [numberArrays, setNumberArrays] =
     React.useState<number[][]>(DEFAULT_NUMBERARRAYS);
   const [emptySpots, setEmptySpots] = React.useState<number[][]>(DEFAULT_EMPTY);
-
+  const [score, setScore] = React.useState<number>(0);
   //delete emoty spot with id x and y
   // function removeEmptySpot(x: number, y: number) {
   //   setEmptySpots(
@@ -92,6 +93,7 @@ export const NumberArraysProvider: React.FC<NumberArraysProviderProps> = ({
                   index + 1 < withoutSpaces.length &&
                   n == withoutSpaces?.[index + 1]
                 ) {
+                  setScore((prev) => prev + n * 2);
                   return { skipNext: true, data: [...sum.data, n * 2] };
                 } else {
                   return { skipNext: false, data: [...sum.data, n] };
@@ -129,6 +131,7 @@ export const NumberArraysProvider: React.FC<NumberArraysProviderProps> = ({
                   index + 1 < withoutSpaces.length &&
                   n == withoutSpaces?.[index + 1]
                 ) {
+                  setScore((prev) => prev + n * 2);
                   return { skipNext: true, data: [...sum.data, n * 2] };
                 } else {
                   return { skipNext: false, data: [...sum.data, n] };
@@ -164,6 +167,7 @@ export const NumberArraysProvider: React.FC<NumberArraysProviderProps> = ({
           const value = numberArrays[col][row]; //current element value
           if (value != 0) {
             if (prevValue == value) {
+              setScore((prev) => prev + value * 2);
               prevValue = -1;
               colNumberArray[colNumberArray.length - 1] *= 2;
             } else {
@@ -202,6 +206,7 @@ export const NumberArraysProvider: React.FC<NumberArraysProviderProps> = ({
           const value = numberArrays[col][row]; //current element value
           if (value != 0) {
             if (prevValue == value) {
+              setScore((prev) => prev + value * 2);
               prevValue = -1;
               colNumberArray[colNumberArray.length - 1] *= 2;
             } else {
@@ -238,6 +243,7 @@ export const NumberArraysProvider: React.FC<NumberArraysProviderProps> = ({
         startGame,
         MOVE,
         emptySpots,
+        score,
       }}
     >
       {children}

@@ -4,7 +4,7 @@ import { useNumberArraysContext } from "./context/NumbersContext";
 import { useEffect } from "react";
 
 const Game = () => {
-  const { numberArrays, emptySpots, startGame, MOVE } =
+  const { numberArrays, emptySpots, startGame, MOVE, score } =
     useNumberArraysContext();
   const handleKeyDown = (event: KeyboardEvent) => {
     switch (event.key) {
@@ -33,10 +33,22 @@ const Game = () => {
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [numberArrays, emptySpots]);
+  }, [numberArrays, emptySpots, score]);
 
   return (
-    <>
+    <Wrapper>
+      <Header>
+        <div>
+          <h1>2048</h1>
+          <span>Play 2048 Game Online</span>
+        </div>
+        <div className="dashboard">
+          <div>
+            <h3>SCORE</h3>
+            <span className="score">{score}</span>
+          </div>
+        </div>
+      </Header>
       <Board>
         {numberArrays.map((el, index) =>
           el.map((n, i) => {
@@ -45,7 +57,7 @@ const Game = () => {
         )}
       </Board>
       <button onClick={startGame}>Start</button>
-    </>
+    </Wrapper>
   );
 };
 
@@ -58,6 +70,47 @@ const Board = styled.div`
   grid-template-columns: repeat(4, 1fr);
   gap: 10px;
   padding: 20px;
+`;
+const Header = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  color: #645441;
+  font-weight: 600;
+  padding-left: 38px;
+  h1 {
+    font-size: 64px;
+  }
+  margin-bottom: 24px;
+  .dashboard {
+    margin-right: 38px;
+    padding-top: 6px;
+    div {
+      background-color: #645441;
+      padding: 12px;
+      border-radius: 6px;
+      padding-inline: 24px;
+
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      h3 {
+        color: #d1b99d;
+      }
+      span {
+        color: #fff;
+        font-size: 24px;
+      }
+    }
+  }
+`;
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 export default Game;
