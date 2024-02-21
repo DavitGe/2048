@@ -29,9 +29,9 @@ const Wrapper = styled.div`
     color: #fff;
     font-weight: 600;
     letter-spacing: 1px;
-    font-size: 22px;
+    font-size: 16px;
     border-radius: 8px;
-    margin-top: 32px;
+    margin-top: 4px;
     cursor: pointer;
 
     transition: 0.2s ease;

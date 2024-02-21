@@ -4,8 +4,15 @@ import { useNumberArraysContext } from "./context/NumbersContext";
 import { useEffect } from "react";
 
 const Game = () => {
-  const { numberArrays, emptySpots, startGame, MOVE, score } =
-    useNumberArraysContext();
+  const {
+    numberArrays,
+    emptySpots,
+    startGame,
+    MOVE,
+    score,
+    isPlaying,
+    restart,
+  } = useNumberArraysContext();
   const handleKeyDown = (event: KeyboardEvent) => {
     switch (event.key) {
       case "ArrowUp":
@@ -25,6 +32,9 @@ const Game = () => {
         break;
     }
   };
+  useEffect(() => {
+    startGame();
+  }, []);
   useEffect(() => {
     // Attach event listener when component mounts
     window.addEventListener("keydown", handleKeyDown);
@@ -47,21 +57,23 @@ const Game = () => {
             <h3>SCORE</h3>
             <span className="score">{score}</span>
           </div>
+          <button onClick={restart}>New Game</button>
         </div>
       </Header>
-      <Board>
+      <GameOverText isPlaying={isPlaying}>Game Over!</GameOverText>
+      <Board isPlaying={isPlaying}>
         {numberArrays.map((el, index) =>
           el.map((n, i) => {
             return <NumberElement key={i + String(index)} number={n} />;
           })
         )}
       </Board>
-      <button onClick={startGame}>Start</button>
     </Wrapper>
   );
 };
 
-const Board = styled.div`
+const Board = styled.div<{ isPlaying: boolean }>`
+  position: relative;
   background-color: #b29d85;
   border-radius: 16px;
   width: 424px;
@@ -70,6 +82,9 @@ const Board = styled.div`
   grid-template-columns: repeat(4, 1fr);
   gap: 10px;
   padding: 20px;
+
+  transition: 0.3s ease;
+  opacity: ${(props) => (props.isPlaying ? "1" : "0.4")};
 `;
 const Header = styled.div`
   display: flex;
@@ -85,13 +100,11 @@ const Header = styled.div`
   margin-bottom: 24px;
   .dashboard {
     margin-right: 38px;
-    padding-top: 6px;
+    /* padding-top: 6px; */
     div {
       background-color: #645441;
-      padding: 12px;
+      padding: 8px;
       border-radius: 6px;
-      padding-inline: 24px;
-
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -111,6 +124,21 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+`;
+
+const GameOverText = styled.h1<{ isPlaying: boolean }>`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  transition: 0.3s ease;
+  color: #645441;
+  font-size: 48px;
+  font-weight: 600;
+
+  opacity: ${(props) => (props.isPlaying ? 0 : 1)};
+  z-index: ${(props) => (props.isPlaying ? -10 : 10)};
 `;
 
 export default Game;
