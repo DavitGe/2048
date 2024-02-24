@@ -159,7 +159,43 @@ export const NumberArraysProvider: React.FC<NumberArraysProviderProps> = ({
       if (result.gameOver) {
         setIsPlaying(false);
       }
-      setNumberArrays(result.numberArrays);
+
+      for (let row = 0; row < numberArrays.length; row++) {
+        for (let col = 1; col < numberArrays[row].length; col++) {
+          const currentElement = numberArrays[row][col];
+          if (currentElement !== 0) {
+            const leftNeighbor = numberArrays[row][col - 1];
+            // const leftNonZeroNeighbor = numberArrays[row][];
+
+            // Check if the current element moved to the left
+            if (leftNeighbor === 0) {
+              const currentElementId = `${row}-${col}`;
+              console.log("currentElementId moved left", currentElementId);
+              document
+                .getElementById(currentElementId)
+                ?.classList.add("move-left");
+              // currentElementDOM?.classList.add("move-left");
+            }
+
+            // Check if the current element pops
+            if (currentElement === leftNeighbor) {
+              const currentElementId = `${row}-${col}`;
+              document.getElementById(currentElementId)?.classList.add("pop");
+            }
+          }
+        }
+      }
+
+      setTimeout(() => {
+        const elements = document.querySelectorAll(".move-left");
+
+        // Iterate over each element and remove the class
+        elements.forEach((element) => {
+          element.classList.remove("move-left");
+        });
+        setNumberArrays(result.numberArrays);
+      }, 100);
+
       setEmptySpots(result.emptySpots);
     },
     right: () => {

@@ -1,18 +1,23 @@
 import styled from "styled-components";
 import { NUMBER_COLORS } from "../store/NUMBER_COLORS";
 
-const Number = ({ number }: { number?: number }) => {
+const Number = ({ number, id }: { number?: number; id?: string }) => {
   return (
     <Container
       color={NUMBER_COLORS[number ?? 0].color}
       $backgroundColor={NUMBER_COLORS[number ?? 0].backgroundColor}
+      id={id}
     >
       {number !== 0 && number}
     </Container>
   );
 };
 
-const Container = styled.div<{ color: any; $backgroundColor: string }>`
+const Container = styled.div<{
+  color: any;
+  $backgroundColor: string;
+  id?: string;
+}>`
   padding: 10px;
   background-color: ${(props) => props.$backgroundColor};
   text-align: center;
@@ -29,6 +34,8 @@ const Container = styled.div<{ color: any; $backgroundColor: string }>`
   font-weight: 600;
   font-size: 36px;
   color: ${(props) => props.color ?? "#000"};
+
+  position: relative;
 `;
 
 export default Number;

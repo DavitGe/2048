@@ -2,6 +2,7 @@ import styled from "styled-components";
 import NumberElement from "../NumberElement";
 import { useNumberArraysContext } from "./context/NumbersContext";
 import { useEffect } from "react";
+import { DEFAULT_NUMBERARRAYS } from "../../store/DEFAULT_NUMBERARRAYS";
 
 const Game = () => {
   const {
@@ -62,9 +63,28 @@ const Game = () => {
       </Header>
       <GameOverText isPlaying={isPlaying}>Game Over!</GameOverText>
       <Board isPlaying={isPlaying}>
+        <Template>
+          {DEFAULT_NUMBERARRAYS.map((el, index) =>
+            el.map((n, i) => {
+              return (
+                <NumberElement
+                  key={i + String(index)}
+                  number={n}
+                  id={`empty-${index}-${i}`}
+                />
+              );
+            })
+          )}
+        </Template>
         {numberArrays.map((el, index) =>
           el.map((n, i) => {
-            return <NumberElement key={i + String(index)} number={n} />;
+            return (
+              <NumberElement
+                key={i + String(index)}
+                number={n}
+                id={`${index}-${i}`}
+              />
+            );
           })
         )}
       </Board>
@@ -85,6 +105,30 @@ const Board = styled.div<{ isPlaying: boolean }>`
 
   transition: 0.3s ease;
   opacity: ${(props) => (props.isPlaying ? "1" : "0.4")};
+
+  .move-left {
+    animation: moveLeft 0.1s ease-in-out infinite;
+
+    @keyframes moveLeft {
+      0% {
+        left: 0;
+      }
+      100% {
+        left: -100%;
+      }
+    }
+  }
+`;
+
+const Template = styled.div`
+  position: absolute;
+  left: 20px;
+  top: 20px;
+  width: 384px;
+  height: 384px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
 `;
 const Header = styled.div`
   display: flex;
