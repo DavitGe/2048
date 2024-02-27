@@ -107,7 +107,7 @@ const Board = styled.div<{ isPlaying: boolean }>`
   opacity: ${(props) => (props.isPlaying ? "1" : "0.4")};
 
   .move-left {
-    animation: moveLeft 0.1s ease-in-out infinite;
+    animation: moveLeft 0.1s ease-in infinite;
 
     @keyframes moveLeft {
       0% {
@@ -115,6 +115,20 @@ const Board = styled.div<{ isPlaying: boolean }>`
       }
       100% {
         left: -100%;
+      }
+    }
+  }
+
+  .move-right {
+    z-index: 1;
+    animation: moveRight 0.1s ease-in infinite;
+
+    @keyframes moveRight {
+      0% {
+        right: 0;
+      }
+      100% {
+        right: -100%;
       }
     }
   }
