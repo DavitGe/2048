@@ -281,7 +281,6 @@ export const NumberArraysProvider: React.FC<NumberArraysProviderProps> = ({
 
       for (let row = 0; row < numberArrays.length; row++) {
         var colNumberArray: number[] = []; //stores value of moved column (without 0s)
-        var emptyIndex = numberArrays[row].length - 1; //lowest empty index
         var prevValue: number = -1; //last element except 0 (to add)
         for (let col = 0; col < numberArrays[row].length; col++) {
           const value = numberArrays[col][row]; //current element value
@@ -295,10 +294,9 @@ export const NumberArraysProvider: React.FC<NumberArraysProviderProps> = ({
               prevValue = -1;
               colNumberArray[colNumberArray.length - 1] *= 2;
             } else {
-              emptyIndex -= 1;
               prevValue = value;
               colNumberArray.push(value);
-              if (col !== 0 && !prevValue) {
+              if (col !== 0 && colNumberArray.length <= col) {
                 document
                   .getElementById(currentElementId)
                   ?.classList.add("move-top");
@@ -330,7 +328,7 @@ export const NumberArraysProvider: React.FC<NumberArraysProviderProps> = ({
 
         // Iterate over each element and remove the class
         elements.forEach((element) => {
-          element.classList.remove("move-top");
+          element.classList.remove("move-top", "pop");
         });
         setNumberArrays(result.numberArrays);
       }, 100);
@@ -341,7 +339,6 @@ export const NumberArraysProvider: React.FC<NumberArraysProviderProps> = ({
 
       for (let row = numberArrays.length - 1; row >= 0; row--) {
         var colNumberArray: number[] = []; //stores value of moved column (without 0s)
-        var emptyIndex = numberArrays[row].length - 1; //lowest empty index
         var prevValue: number = -1; //last element except 0 (to add)
         for (let col = numberArrays[row].length - 1; col >= 0; col--) {
           const value = numberArrays[col][row]; //current element value
@@ -350,15 +347,17 @@ export const NumberArraysProvider: React.FC<NumberArraysProviderProps> = ({
             if (prevValue == value) {
               document
                 .getElementById(currentElementId)
-                ?.classList.add("move-bottom");
+                ?.classList.add("move-bottom", "pop");
               setScore((prev) => prev + value * 2);
               prevValue = -1;
               colNumberArray[colNumberArray.length - 1] *= 2;
             } else {
-              emptyIndex += 1;
               prevValue = value;
               colNumberArray.push(value);
-              if (col !== numberArrays.length - 1 && !prevValue) {
+              if (
+                col !== numberArrays.length - 1 &&
+                colNumberArray.length <= (col - 3) * -1
+              ) {
                 document
                   .getElementById(currentElementId)
                   ?.classList.add("move-bottom");
