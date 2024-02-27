@@ -298,7 +298,7 @@ export const NumberArraysProvider: React.FC<NumberArraysProviderProps> = ({
               emptyIndex -= 1;
               prevValue = value;
               colNumberArray.push(value);
-              if (col !== 0) {
+              if (col !== 0 && !prevValue) {
                 document
                   .getElementById(currentElementId)
                   ?.classList.add("move-top");
@@ -358,7 +358,7 @@ export const NumberArraysProvider: React.FC<NumberArraysProviderProps> = ({
               emptyIndex += 1;
               prevValue = value;
               colNumberArray.push(value);
-              if (col !== numberArrays.length - 1) {
+              if (col !== numberArrays.length - 1 && !prevValue) {
                 document
                   .getElementById(currentElementId)
                   ?.classList.add("move-bottom");
