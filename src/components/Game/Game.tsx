@@ -132,6 +132,34 @@ const Board = styled.div<{ isPlaying: boolean }>`
       }
     }
   }
+
+  .move-top {
+    z-index: 1;
+    animation: moveTop 0.1s ease-in infinite;
+
+    @keyframes moveTop {
+      0% {
+        top: 0;
+      }
+      100% {
+        top: -100%;
+      }
+    }
+  }
+
+  .move-bottom {
+    z-index: 1;
+    animation: moveBottom 0.1s ease-in infinite;
+
+    @keyframes moveBottom {
+      0% {
+        bottom: 0;
+      }
+      100% {
+        bottom: -100%;
+      }
+    }
+  }
 `;
 
 const Template = styled.div`

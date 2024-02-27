@@ -249,7 +249,6 @@ export const NumberArraysProvider: React.FC<NumberArraysProviderProps> = ({
             // Check if the current element moved to the right
             if (rightNeighbor === 0) {
               const currentElementId = `${row}-${col}`;
-              console.log("currentElementId moved right", currentElementId);
               document
                 .getElementById(currentElementId)
                 ?.classList.add("move-right");
@@ -287,7 +286,11 @@ export const NumberArraysProvider: React.FC<NumberArraysProviderProps> = ({
         for (let col = 0; col < numberArrays[row].length; col++) {
           const value = numberArrays[col][row]; //current element value
           if (value != 0) {
+            const currentElementId = `${col}-${row}`;
             if (prevValue == value) {
+              document
+                .getElementById(currentElementId)
+                ?.classList.add("move-top");
               setScore((prev) => prev + value * 2);
               prevValue = -1;
               colNumberArray[colNumberArray.length - 1] *= 2;
@@ -295,6 +298,11 @@ export const NumberArraysProvider: React.FC<NumberArraysProviderProps> = ({
               emptyIndex -= 1;
               prevValue = value;
               colNumberArray.push(value);
+              if (col !== 0) {
+                document
+                  .getElementById(currentElementId)
+                  ?.classList.add("move-top");
+              }
             }
           }
         }
@@ -316,7 +324,16 @@ export const NumberArraysProvider: React.FC<NumberArraysProviderProps> = ({
         setIsPlaying(false);
       }
 
-      setNumberArrays(result.numberArrays);
+      //animation =====
+      setTimeout(() => {
+        const elements = document.querySelectorAll(".move-top");
+
+        // Iterate over each element and remove the class
+        elements.forEach((element) => {
+          element.classList.remove("move-top");
+        });
+        setNumberArrays(result.numberArrays);
+      }, 100);
       setEmptySpots(result.emptySpots);
     },
     down: () => {
@@ -329,7 +346,11 @@ export const NumberArraysProvider: React.FC<NumberArraysProviderProps> = ({
         for (let col = numberArrays[row].length - 1; col >= 0; col--) {
           const value = numberArrays[col][row]; //current element value
           if (value != 0) {
+            const currentElementId = `${col}-${row}`;
             if (prevValue == value) {
+              document
+                .getElementById(currentElementId)
+                ?.classList.add("move-bottom");
               setScore((prev) => prev + value * 2);
               prevValue = -1;
               colNumberArray[colNumberArray.length - 1] *= 2;
@@ -337,6 +358,11 @@ export const NumberArraysProvider: React.FC<NumberArraysProviderProps> = ({
               emptyIndex += 1;
               prevValue = value;
               colNumberArray.push(value);
+              if (col !== numberArrays.length - 1) {
+                document
+                  .getElementById(currentElementId)
+                  ?.classList.add("move-bottom");
+              }
             }
           }
         }
@@ -358,7 +384,15 @@ export const NumberArraysProvider: React.FC<NumberArraysProviderProps> = ({
         setIsPlaying(false);
       }
 
-      setNumberArrays(result.numberArrays);
+      setTimeout(() => {
+        const elements = document.querySelectorAll(".move-bottom");
+
+        // Iterate over each element and remove the class
+        elements.forEach((element) => {
+          element.classList.remove("move-bottom");
+        });
+        setNumberArrays(result.numberArrays);
+      }, 100);
       setEmptySpots(result.emptySpots);
     },
   };
