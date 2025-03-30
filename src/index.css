@@ -102,6 +102,10 @@ section {
 }
 body {
   line-height: 1;
+  background-color: #efeee3;
+  font-family: sans-serif;
+  overflow-x: hidden;
+  touch-action: pan-x pan-y;
 }
 ol,
 ul {
@@ -123,6 +127,29 @@ table {
   border-spacing: 0;
 }
 
+/* Disable pull-to-refresh and overscroll behavior */
+html,
 body {
-  background-color: #efeee3;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  position: fixed;
+  margin: 0;
+  padding: 0;
+}
+
+@media (max-width: 480px) {
+  body {
+    overflow: hidden;
+  }
+}
+
+/* Prevent text selection during swipe */
+.no-select {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }

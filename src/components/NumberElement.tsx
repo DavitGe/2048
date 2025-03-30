@@ -23,8 +23,9 @@ const Container = styled.div<{
   text-align: center;
   box-sizing: border-box;
   border-radius: 8px;
-  width: 99px;
-  height: 99px;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 1/1;
 
   display: flex;
   align-items: center;
@@ -32,7 +33,7 @@ const Container = styled.div<{
 
   font-family: "Kanit", sans-serif;
   font-weight: 600;
-  font-size: 36px;
+  font-size: clamp(18px, 5vw, 36px);
   color: ${(props) => props.color ?? "#000"};
 
   position: relative;
