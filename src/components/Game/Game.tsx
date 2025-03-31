@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import NumberElement from "../NumberElement";
 import { useNumberArraysContext } from "./context/NumbersContext";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { DEFAULT_NUMBERARRAYS } from "../../store/DEFAULT_NUMBERARRAYS";
 
 const Game = () => {
